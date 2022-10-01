@@ -1,5 +1,5 @@
 from dataclasses import dataclass, asdict
-from typing import Dict, ClassVar
+from typing import Dict, ClassVar, Type
 
 
 @dataclass
@@ -17,7 +17,7 @@ class InfoMessage:
                               'Ср. скорость: {speed:.3f} км/ч; '
                               'Потрачено ккал: {calories:.3f}.')
 
-    def get_message(self):
+    def get_message(self) -> str:
         return self.MESSAGE.format(**asdict(self))
 
 
@@ -132,15 +132,14 @@ class Swimming(Training):
 
 def read_package(workout_type: str, data: list) -> Training:
     """Прочитать данные полученные от датчиков."""
-    try:
-        training_data: Dict[str, type[Training]] = {'SWM': Swimming,
-                                                    'RUN': Running,
-                                                    'WLK': SportsWalking,
-                                                    }
-
+    training_data: Dict[str, Type[Training]] = {'SWM': Swimming,
+                                                'RUN': Running,
+                                                'WLK': SportsWalking,
+                                                }
+    if workout_type not in training_data:
+        raise ValueError()
+    else:
         return training_data[workout_type](*data)
-    except NameError:
-        exit('Тип тренировки указан не верно')
 
 
 def main(training: Training) -> None:
