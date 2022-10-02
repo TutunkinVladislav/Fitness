@@ -27,14 +27,11 @@ class Training:
     LEN_STEP: float = 0.65
     M_IN_KM: int = 1000
     MINUTES: int = 60
-    action: int
-    duration: float
-    weight: float
 
     def __init__(self,
-                 action,
-                 duration,
-                 weight,
+                 action: int,
+                 duration: float,
+                 weight: float,
                  ) -> None:
         self.action = action
         self.duration = duration
